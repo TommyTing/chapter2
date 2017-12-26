@@ -9,6 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.smart4j.util.CollectionUtil;
 import org.smart4j.util.PropsUtil;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -49,6 +52,23 @@ public final class DatabaseHelper {
         DATA_SOURCE.setUrl(url);
         DATA_SOURCE.setUsername(username);
         DATA_SOURCE.setPassword(password);
+    }
+
+    /**
+     * 执行SQL文件
+     */
+    public static void executeSqlFile(String filePath){
+        InputStream is=Thread.currentThread().getContextClassLoader().getResourceAsStream(filePath);
+        BufferedReader reader=new BufferedReader(new InputStreamReader(is));
+        try {
+            String sql;
+            while ((sql=reader.readLine())!=null){
+                executeUpdate(sql);
+            }
+        }catch (Exception e){
+            LOGGER.error("execute sql file failure",e);
+            throw new RuntimeException(e);
+        }
     }
 
     /**

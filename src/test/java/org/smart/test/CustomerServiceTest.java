@@ -1,11 +1,15 @@
 package org.smart.test;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.smart4j.helper.DatabaseHelper;
 import org.smart4j.model.Customer;
 import org.smart4j.service.CustomerService;
 
@@ -22,8 +26,8 @@ public class CustomerServiceTest {
     }
 
     @Before
-    public void init(){
-        //初始化数据库
+    public void init() throws Exception{
+        DatabaseHelper.executeUpdate("sql/customer_init.sql");
     }
 
     @Test
